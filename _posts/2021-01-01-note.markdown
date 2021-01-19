@@ -1,0 +1,39 @@
+---
+layout: post
+title:  "随手记 note"
+date:   2020-01-01 01:01:01 +0800
+categories: lzread update
+---
+
+## linux 常用记录
+目录下文件增加权限
+```bash
+chmod 777 * -R
+```
+
+## maxos 常用记录
+### nginx
+路径 
+```bash
+/usr/local/etc/nginx
+```
+启动命令
+```bash
+sudo nginx
+```
+快速停止命令
+```bash
+sudo nginx -s stop
+```
+平稳退出命令
+```bash
+sudo nginx -s quit
+```
+重新加载配置文件命令
+```bash
+sudo nginx -s reload
+```
+## npm 常用记录
+```bash
+npm install --registry=https://registry.npm.taobao.org
+```
