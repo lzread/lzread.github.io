@@ -1,7 +1,173 @@
 ---
 layout: post
-title:  "jenkins vue 项目部署"
-date:   2020-01-02 01:01:01 +0800
+title:  "用 Jenkins 来完成 vue 项目自动化部署"
+date:   2021-01-02 01:01:01 +0800
 categories: lzread update
 ---
 
+## 实现目标
+
+使用 vscode 终端， 通过 git push 推送到 GitHub ， 然后通过 GitHub 的 Webhook 自动触发 Jenkins ,从而实现自动下载、打包、发布。
+
+## 准备工作
+
+- GitHub 账号、vue 项目
+- Linux CentOS 系统的服务器（我使用的是阿里云的 ECS）
+- 服务器安装 Java SDK
+- 服务器安装 Nginx
+- 服务器安装 Jenkins
+
+## 关于 Jenkins 
+
+Jenkins是开源CI&CD软件领导者， 提供超过1000个插件来支持构建、部署、自动化， 满足任何项目的需要。
+
+#### 持续集成和持续交付
+作为一个可扩展的自动化服务器，Jenkins 可以用作简单的 CI 服务器，或者变成任何项目的持续交付中心。
+
+#### 简易安装
+Jenkins 是一个基于 Java 的独立程序，可以立即运行，包含 Windows、Mac OS X 和其他类 Unix 操作系统。
+
+#### 配置简单
+Jenkins 可以通过其网页界面轻松设置和配置，其中包括即时错误检查和内置帮助。
+
+#### 插件
+通过更新中心中的 1000 多个插件，Jenkins 集成了持续集成和持续交付工具链中几乎所有的工具。
+
+#### 扩展
+Jenkins 可以通过其插件架构进行扩展，从而为 Jenkins 可以做的事提供几乎无限的可能性。
+
+#### 分布式
+Jenkins 可以轻松地在多台机器上分配工作，帮助更快速地跨多个平台推动构建、测试和部署。
+
+## 通过 yum 安装
+
+#### 安装 Java
+```bash
+yum install java
+```
+
+#### 安装 Git
+```bash
+yum install git
+```
+
+#### 安装 Nginx Or 通过宝塔 Linux 安装 Nginx
+直接安装
+```bash
+yum install nginx   //安装
+service nginx start //启动
+```
+使用宝塔 Linux
+>我这块为了方便管理其他的项目，直接安装的宝塔 Linux 。如果是阿里云的 ECS 记得安装完成后，放行安全端口，否则无法访问。
+```bash
+yum install -y wget && wget -O install.sh http://download.bt.cn/install/install_6.0.sh && sh install.sh
+```
+访问宝塔页面，在宝塔软件商店搜索 Nginx 进行安装，然后启动
+
+#### 安装 Jenkins
+```bash
+$ wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key 
+
+yum install jenkins //完成之后直接使用 yum 命令安装 Jenkins
+
+service jenkins restart  //启动 jenkins
+```
+
+## 运行 Jekins
+jenkins 启动成功后默认的是 8080 端口，浏览器输入你的服务器 IP 地址加 8080 端口就可以访问了。如果是阿里云的 ECS 记得安装完成后，放行安全端口，否则无法访问。
+
+终端输入
+```bash
+cat /var/lib/jenkins/secrets/initialAdminPassword //查看初始密码
+```
+成功运行
+>选择安装推荐的插件
+![Image text]({{ baseurl }}/assets/pic/2021-01-01/001.webp)
+>安装完成后设置用户名和密码
+
+## 安装 Jekins NodeJS 插件
+因为我们的项目是要用到 NodeJS 打包的， 所以先安装 NodeJS 插件
+
+`系统管理` -> `插件管理` -> `搜索 NodeJS` -> `安装`
+
+## 配置 NodeJS 插件
+`系统管理` -> `全局工具配置` -> `新增 NodeJS` -> `保存`
+
+## 新建任务
+### 输入项目名称，选择构建一个自由风格的软件项目
+![Image text]({{ baseurl }}/assets/pic/2021-01-01/002.png)
+### 关联 GitHub 项目地址
+`源码管理` -> `Git` -> `输入 Repository URL` -> `选择分支`
+### 选择构建环境
+`构建环境` -> `选择 Provide Node & npm bin/ folder to PATH`
+### 选择构建并编写shell 命令
+`构建` -> `输入命令`
+```bash
+#!/bin/bash
+node -v &&
+npm -v &&
+npm install &&
+npm run build:prod &&
+cd dist&&
+tar -zcvf dist.tar.gz *
+```
+
+## 安装 Publish Over SSH 插件
+我们将通过这个工具实现服务器部署功能。
+
+`系统管理` -> `插件管理` -> `搜索 Publish Over SSH` -> `安装`
+
+安装完成后
+
+`系统管理` -> `系统配置` -> `Publish over SSH`
+
+- Key 私钥
+- SSH Server
+  - Name 标识的名字
+  - Hostname 需要连接ssh的主机名或ip地址
+  - Username 用户名
+  - Remote Directory 远程目录
+
+点击 `Test Configuration` 如果出现 `Success` 代表配置成功
+
+## 继续任务的配置
+重新打开项目配置
+
+`构建后操作` -> `选择 send build artificial over SSH`
+
+- SSH Publishers
+  - Transfer Set
+    - Source files 传输的文件路径
+    - Remove prefix 要去掉的前缀
+    - Remote directory 服务器的哪个目录
+    - Exec command 传输完要执行的命令
+
+```bash
+cd /xxx/xxx/xxx 目标文件夹
+tar -xzvf dist.tar.gz
+rm -rf dist.tar.gz
+```
+
+## 安装 Webhook Trigger 插件
+
+`系统管理` -> `插件管理` -> `Webhook Trigger` -> `安装`
+
+## 配置触发器
+打开项目配置
+
+`构建触发器` -> `选择 Generic Webhook Trigger` -> `输入一个自定义的 Token`
+
+## 配置 GitHub 的 Webhook
+打开 GitHub 的项目
+
+`Settings` -> `选择 Webhooks` -> `Add webhook`
+
+```
+Payload URL: http://【Jenkins 用户名】:【Jenkins 密码】@【Jenkins 访问地址】/generic-webhook-trigger/invoke?token=【自定义的 Token】
+Content type: application/x-www-form-urlencoded
+```
+![Image text]({{ baseurl }}/assets/pic/2021-01-01/003.png)
+
+## 完成测试
+通过 `git push` 推送到 GitHub 将直接发布到服务器的指定目录
