@@ -5,3 +5,512 @@ date:   2020-12-01 01:01:01 +0800
 categories: lzread update
 ---
 
+## 路由结构解读
+```javascript
+hidden: true // (默认 false) 当设置 true 的时候该路由不会在侧边栏出现 如401，login等页面
+
+redirect: 'noRedirect' //当设置 noRedirect 的时候该路由在面包屑导航中不可被点击
+
+name: 'router-name' // 设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
+
+meta: {
+
+  roles: ['admin', 'editor'] // 设置该路由进入的权限，支持多个权限叠加
+
+  title: 'title' // 设置该路由在侧边栏和面包屑中展示的名字
+
+  icon: 'svg-name' // 设置该路由的图标
+  
+}
+```
+
+## 左侧动态角色权限菜单
+
+### 创建相关文件 
+- 创建映射路由管理文件 `router/map.js` 通过接口返回的数据来和映射路由文件里的数据进行动态匹配实体文件
+- 创建菜单接口文件 `api/menu.js` 菜单的接口文件
+- 创建 VUEX 权限管理文件 `store/modules/permission.js` 通过该文件生成可以使用的路由结构
+- 创建菜单递归组件 `components/Layout/SideBar/SidebarItem.vue` 通过递归来实现动态多级菜单
+- 创建错误页面 `views/error/404.vue` 
+
+### 编写 `router/index.js` 文件
+- 定义 `constantRoutes`， constantRoutes 代表不用权限判断的路由
+```javascript
+export const constantRoutes = [
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    name: 'login',
+    hidden: true,
+    meta: {
+      title: 'login',
+    }
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error/404'),
+    name: '404',
+    hidden: true,
+    meta: {
+      title: '404',
+
+    }
+  },
+  {
+    path: '', component: Layout, redirect: '/',
+    children: [{
+      path: '/',
+      name: 'index',
+      component: () => import('@/views/home/index'),
+      meta: {
+        title: '首页',
+      }
+    }]
+  }
+
+];
+```
+
+- 通过 `new` 关键字来调用路由插件
+```javascript
+const createRouter = () => new Router({
+  routes: constantRoutes
+})
+```
+
+- 输出
+```javascript
+const router = createRouter()
+export default router
+```
+
+### 404 页面处理
+>页面级的错误处理由 vue-router 统一处理，所有匹配不到正确路由的页面都会进 404页面
+```javascript
+//router/index.js 文件
+export const asyncRoutes = [
+  { path: '*', redirect: '/404', hidden: true }
+]
+```
+
+### 编写 `api/menu.js` 文件
+```javascript
+import request from '@/utils/request'
+
+export function getMenus() {
+    return request({
+        url: '/menu/getMenus',
+        method: 'get'
+    })
+}
+```
+
+### 编写 `store/modules/user.js` 文件
+> 我们先查看一下 `getMenus` 接口返回的数据结构 <http://api.lzread.com:3111/api/menu/getMenus>
+- 导入
+```javascript
+import { getMenus } from '@/api/menu'
+```
+- state
+```javascript
+serverRouter: [] //存放需要权限校验的路由菜单
+```
+- mutations
+```javascript
+SET_SERVER_ROUTER: (state, serverRouter) => {
+  state.serverRouter = serverRouter
+}
+```
+- actions
+```javascript
+getMenus({ commit }) {
+  return new Promise((resolve, reject) => {
+    getMenus().then(response => {
+      const { data } = response
+      commit('SET_SERVER_ROUTER', data);
+      resolve(data)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+```
+
+### 编写 `router/map.js`
+```javascript
+const componentMaps = {
+    "work": () => import('@/components/Layout'),
+    "notice": () => import('@/views/work/notice/index')
+}
+//输出
+export default componentMaps;
+```
+
+### 编写 `store/modules/permission.js`
+1. 导入 `constantRoutes` 不需要权限校验的路由。
+```javascript
+import {constantRoutes, asyncRoutes} from '@/router'
+```
+2. 导入 `routerComponentsMap` 路由映射文件
+```javascript
+import routerComponentsMap from '@/router/map.js'
+```
+3. state
+```javascript
+const state = {
+  routes: []
+}
+```
+4. mutations
+```javascript
+const mutations = {
+  SET_ROUTES: (state, routes) => {
+    state.routes = constantRoutes.concat(routes) //concat 方法用于连接两个或多个数组
+  }
+}
+```
+5. `makePermissionRouters` 通过这个函数把菜单转换成树形结构
+```javascript
+function makePermissionRouters(serverRouter) {
+  let obj = [];
+  let map = [];
+  serverRouter.forEach(item => {
+    map[item.id] = item;
+  });
+  serverRouter.forEach(item => {
+    if (routerComponentsMap[item.name]) {
+      item.component = routerComponentsMap[item.name];
+      let parent = map[item.parent_id];
+      item.meta = {};
+      item.meta.roles = stringToArray(item.roles);
+      item.meta.permission = matchPermission(serverRouter, item);
+      item.meta.title = item.title;
+      item.hidden = item.hidden == 'false' ? false : true;
+      delete item.roles;
+      delete item.title;
+
+      if (parent) {
+        if (!Array.isArray(parent.children)) {
+          parent.children = [];
+        }
+        parent.children.push(item);
+      } else {
+        obj.push(item);
+      }
+    }
+  });
+  return obj.concat(asyncRoutes);
+}
+```
+6. `matchPermission`
+```javascript
+function matchPermission(serverRouter, element) {
+  if (element.type == 0) {
+    let res = [];
+    serverRouter.map(item => {
+      if (element.id == item.parent_id && item.type == 1) {
+        res.push({
+          name: item.name,
+          title: item.title,
+          roles: stringToArray(item.roles)
+        });
+      }
+    });
+    return res;
+  } else {
+    return [];
+  }
+}
+```
+7. `stringToArray`
+```javascript
+function stringToArray(res) {
+  if (res) {
+    return res.split(",");
+  } else {
+    return [];
+  }
+}
+```
+8. `filterAsyncRoutes` 
+```javascript
+export function filterAsyncRoutes(routes, roles) {
+  const res = []
+  routes.forEach(route => {
+    const tmp = {
+      ...route
+    }
+
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+  return res
+}
+```
+9. `hasPermission` 判断当前菜单是否包含当前角色，也就是当前角色是否有当前菜单的权限
+```javascript
+function hasPermission(roles, route) {
+  if (route.meta && route.meta.roles) {
+    return roles.some(role => route.meta.roles.includes(role))
+  } else {
+    return true
+  }
+}
+```
+10. actions
+```javascript
+const actions = {
+  /**
+   * 生成路由
+   * @param { Array } roles 角色
+   * @param { Array } serverRouter 菜单
+   */
+  generateRoutes({ commit }, { roles, serverRouter }) {
+    return new Promise(resolve => {
+      let accessedRoutes;
+      const routes = makePermissionRouters(serverRouter);
+      if (roles.includes('admin')) {
+        accessedRoutes = routes || []
+      } else {
+        accessedRoutes = filterAsyncRoutes(routes, roles)
+      }
+      commit('SET_ROUTES', accessedRoutes)
+      resolve(accessedRoutes)
+    })
+  }
+}
+```
+11. 输出
+```javascript
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}
+```
+完整代码
+
+```javascript
+
+import {constantRoutes} from '@/router'
+import routerComponentsMap from '@/router/map.js'
+function hasPermission(roles, route) {
+  if (route.meta && route.meta.roles) {
+    return roles.some(role => route.meta.roles.includes(role))
+  } else {
+    return true
+  }
+}
+function makePermissionRouters(serverRouter) {
+  let obj = [];
+  let map = [];
+  serverRouter.forEach(item => {
+    map[item.id] = item;
+  });
+  serverRouter.forEach(item => {
+    if (routerComponentsMap[item.name]) {
+      item.component = routerComponentsMap[item.name];
+      let parent = map[item.parent_id];
+      item.meta = {};
+      item.meta.roles = stringToArray(item.roles);
+      item.meta.permission = matchPermission(serverRouter, item);
+      item.meta.title = item.title;
+      item.hidden = item.hidden == 'false' ? false : true;
+      delete item.roles;
+      delete item.title;
+      if (parent) {
+        if (!Array.isArray(parent.children)) {
+          parent.children = [];
+        }
+        parent.children.push(item);
+      } else {
+        obj.push(item);
+      }
+    }
+  });
+  return obj;
+}
+
+function matchPermission(serverRouter, element) {
+  if (element.type == 0) {
+    let res = [];
+    serverRouter.map(item => {
+      if (element.id == item.parent_id && item.type == 1) {
+        res.push({
+          name: item.name,
+          title: item.title,
+          roles: stringToArray(item.roles)
+        });
+      }
+    });
+    return res;
+  } else {
+    return [];
+  }
+}
+
+function stringToArray(res) {
+  if (res) {
+    return res.split(",");
+  } else {
+    return [];
+  }
+}
+
+export function filterAsyncRoutes(routes, roles) {
+  const res = []
+  routes.forEach(route => {
+    const tmp = {
+      ...route
+    }
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+  return res
+}
+
+const state = {
+  routes: [],
+  selectIds: []
+}
+
+const mutations = {
+  SET_ROUTES: (state, routes) => {
+    state.routes = constantRoutes.concat(routes)
+  },
+  SET_SELECT_IDS: (state, selectIds) => {
+    state.selectIds = selectIds;
+  }
+}
+
+const actions = {
+  /**
+   * 生成路由
+   * @param { Array } roles 角色
+   * @param { Array } serverRouter 菜单
+   */
+  generateRoutes({ commit }, { roles, serverRouter }) {
+    return new Promise(resolve => {
+      let accessedRoutes;
+      const routes = makePermissionRouters(serverRouter);
+      if (roles.includes('admin')) {
+        accessedRoutes = routes || []
+      } else {
+        accessedRoutes = filterAsyncRoutes(routes, roles)
+      }
+      commit('SET_ROUTES', accessedRoutes)
+      resolve(accessedRoutes)
+    })
+  },
+  setSelectIds({ commit }, selectIds) {
+    commit('SET_SELECT_IDS', selectIds)
+  },
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}
+
+
+```
+
+### 编写 `store/getters.js`
+```javascript
+permission_routes: state => state.permission.routes
+```
+
+### 编写 `permission.js`
+```javascript
+const hasRoles = store.getters.roles && store.getters.roles.length > 0;
+if (hasRoles) {
+  next();
+} else {
+  const { roles } = await store.dispatch('user/getInfo');
+  const serverRouter = await store.dispatch('user/getMenus');
+  const accessRoutes = await store.dispatch('permission/generateRoutes', {roles, serverRouter});
+  router.addRoutes(accessRoutes);
+  next({ ...to, replace: true });
+}
+
+```
+
+### 编写 `Layout/SideBar/SidebarItem.vue`
+```html
+<template>
+    <div>
+        <template v-for="item in items">
+            <template v-if="item.children">
+                <el-submenu :key="item.path" :index="item.path" v-if="!item.hidden && !item.redirect">
+                    <template slot="title">{{item.meta.title}}</template>
+                    <sidebar-item :items="item.children"></sidebar-item>
+                </el-submenu>
+                <template v-if="item.redirect && !item.path">
+                    <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">{{child.meta.title}}</el-menu-item>
+                </template>
+            </template>
+            <template v-else>
+                <el-menu-item :key="item.path" :index="item.path" v-if="!item.hidden">{{item.meta.title}}</el-menu-item>
+            </template>
+        </template>
+    </div>
+</template>
+<script>
+export default {
+    name: "SidebarItem",
+    props: ["items"],
+};
+</script>
+```
+
+### 编写 `Layout/SideBar/index.vue`
+```html
+<template>
+  <div id="SideBar">
+    <el-menu unique-opened router :default-active="$route.path" background-color="#304156" text-color="#bfcbd9" active-text-color="#f4f4f5">
+        <sidebar-item :items="permission_routes"></sidebar-item>
+    </el-menu>
+  </div>
+</template>
+<script>
+import { mapGetters } from "vuex";
+import SidebarItem from "./SidebarItem";
+
+export default {
+    name: "sideBar",
+    computed: {
+        ...mapGetters(["permission_routes"]),
+    },
+    components: { SidebarItem },
+};
+</script>
+```
+
+### 创建模块测试动态菜单功能
+- 创建文件
+```
+用户管理
+views/system/users/index.vue
+角色管理
+views/system/menus/index.vue
+菜单管理
+views/system/roles/index.vue
+```
+- 编写 `router/map.js` 增加对应的映射
+```javascript
+"system": () => import('@/components/Layout'),
+"users": () => import('@/views/system/users/index'),
+"menus": () => import('@/views/system/menus/index'),
+"roles": () => import('@/views/system/roles/index'),
+```

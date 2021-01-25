@@ -5,3 +5,253 @@ date:   2020-12-05 01:01:01 +0800
 categories: lzread update
 ---
 
+## 创建目录和文件
+>`./src/` 先创建几个常用的目录和文件
+> 所有的Component文件都是以大写开头 (PascalCase)，这也是官方所推荐的。但除了 index.vue
+1. components/Layout/index.vue 【创建管理后台的布局文件】
+   1. AppMain/index.vue
+   2. NavBar/index.vue
+   3. SideBar/index.vue
+2. router/index.js
+3. styles
+4. views/
+   1. login/index.vue
+   2. home/index.vue
+5. utils/request.js
+6. api/user.js
+
+## 编写 login/index.vue 和 home/index.vue
+``` html
+<template>
+  <div>
+
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'Login',
+    data() {
+      return {}
+    },
+    created() {},   
+    methods: {},
+    components: {}
+  }
+</script>
+
+<style lang="scss" scoped>
+
+</style>
+```
+
+
+## 配置路由
+通过配置路由完成页面直接的关系和跳转
+```js
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router)
+export default new Router({
+    routes: [
+        {
+            path: '/login',
+            component: () => import('@/views/login/index'),
+            name: 'login',
+            meta: {
+                title: '登录',
+            }
+        },
+        {
+            path: '/',
+            component: () => import('@/views/home/index'),
+            name: 'index',
+            meta: {
+                title: '首页',
+            }
+        },
+    ]
+});
+
+```
+>打开 main.js 文件， 引入路由文件
+1. `import router from './router'`
+2. `new Vue({router,  render: h => h(App),}).$mount('#app')` 增加 `router`
+
+## 编写入口 app.vue
+``` html
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
+
+<script>
+export default {
+  name: "app"
+};
+</script>
+```
+>`npm run serve` 运行项目查看是否正确
+
+
+### 编写框架组件 Layout/AppMain/index.vue 框架的内容区域
+``` html
+<template>
+    <div id="AppMain">
+      <router-view />
+    </div>
+</template>
+<script>
+export default {
+    name: "AppMain",
+};
+</script>
+<style lang="scss" scoped>
+#AppMain {
+    margin-top: 55px;
+    height: calc(100% - 55px);
+}
+</style>
+```
+### 编写框架组件 Layout/NavBar/index.vue 顶部的区域
+``` html
+<template>
+    <div id="NavBar">
+      
+    </div>
+</template>
+<script>
+export default {
+    name: "NavBar",
+};
+</script>
+<style lang="scss" scoped>
+
+</style>
+```
+### 编写框架组件 Layout/SideBar/index.vue 左侧的菜单区域
+``` html
+<template>
+    <div id="SideBar">
+      
+    </div>
+</template>
+<script>
+export default {
+    name: "SideBar",
+};
+</script>
+<style lang="scss" scoped>
+
+</style>
+```
+### 编写框架组件 Layout/index.vue 框架布局主页，包含左侧菜单、顶部导航、中心内容区域
+``` html
+<template>
+    <div id="Layout">
+        <nav-bar />
+        <side-bar />
+        <tags-view />
+        <app-main />
+    </div>
+</template>
+
+<script>
+import NavBar from "./NavBar";
+import SideBar from "./SideBar";
+import AppMain from "./AppMain";
+
+export default {
+    name: "Layout",
+    components: { NavBar, SideBar, AppMain },
+};
+</script>
+
+<style lang="scss" scoped>
+#Layout {
+    padding: 0 0 0 200px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+</style>
+```
+
+## 继续完善路由 router/index.js
+1. `import Layout from '@/components/Layout'`
+2. 修改首页的配置
+``` javascript
+{
+    path: '', 
+    component: Layout, 
+    redirect: '/',   //重定向到首页
+    children: [{
+      path: '/',
+      name: 'index',
+      component: () => import('@/views/home/index'),
+      meta: {
+        title: '首页',
+      }
+    }]
+}
+```
+为了布局的统一性和通用性，我们把之前所有的需要在框架里展现一级界面，全部都下降到二级，Layout 相当于是一级，含义就是一级包裹这二级，二级包裹这三级，依次包裹。
+
+## 编写左侧导航
+``` html
+<template>
+  <div id="SideBar">
+    <el-menu unique-opened router :default-active="$route.path">
+      <el-menu-item index="/">
+        <span slot="title">主页</span>
+      </el-menu-item>
+      <el-submenu index="1">
+        <template slot="title">
+          <span>导航一</span>
+        </template>
+        <el-menu-item index="1-1">选项1</el-menu-item>
+        <el-menu-item index="1-2">选项2</el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </div>
+</template>
+<style lang="scss" scoped>
+#SideBar {
+  width: 200px;
+  height: calc(100% - 55px);
+  position: fixed;
+  top: 55px;
+  left: 0;
+}
+</style>
+```
+
+## 编写顶部
+```html
+<template>
+  <div id="NavBar"></div>
+</template>
+<script>
+export default {
+  name: "NavBar",
+};
+</script>
+<style lang="scss" scoped>
+#NavBar {
+  width: 100%;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+</style>
+```
+

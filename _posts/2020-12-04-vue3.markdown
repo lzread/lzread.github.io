@@ -5,3 +5,245 @@ date:   2020-12-04 01:01:01 +0800
 categories: lzread update
 ---
 
+## 创建通知页面
+1. `work/notice/index.vue`
+2. 配置路由
+``` javascript
+{
+   path: '',
+   component: Layout,
+   children: [
+         {
+            path: '/work/notice',
+            component: () => import('@/views/work/notice/index'),
+            name: 'notice',
+            meta: { title: '公告管理' }
+         }
+   ]
+}
+```
+3. 增加菜单链接
+``` html
+<el-submenu index="">
+   <template slot="title">
+      <span>工作</span>
+   </template>
+   <el-menu-item index="/work/notice">公告管理</el-menu-item>
+</el-submenu>
+```
+
+## reques.js 
+``` javascript
+import axios from 'axios'
+import { Message } from 'element-ui'
+
+// 创建一个请求实例
+const service = axios.create({
+  baseURL: 'http://api.com',
+  timeout: 5000
+})
+
+// 响应拦截器
+service.interceptors.response.use(
+  response => {
+    const res = response.data
+    if (res.code !== 200) {
+      Message({
+        message: res.message || 'Error',
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else {
+      return res
+    }
+  },
+  error => {
+    const res = error.response.data
+    Message({
+      message: res.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(error)
+  }
+)
+export default service
+
+```
+
+## 创建 api/notice.js 文件
+``` javascript
+import request from '@/utils/request'
+
+export function list(query) {
+    return request({
+        url: '/notice/list',
+        method: 'get',
+        params: query
+    })
+}
+
+export function add(data) {
+    return request({
+        url: '/notice/add',
+        method: 'post',
+        data
+    })
+}
+
+export function edit(data) {
+    return request({
+        url: '/notice/edit',
+        method: 'post',
+        data
+    })
+}
+
+export function del(id) {
+    return request({
+        url: `/notice/del/${id}`,
+        method: 'post'
+    })
+}
+
+```
+## 编写通知列表结构
+```html
+<el-table :data="rows">
+    <el-table-column prop="title" label="标题"> </el-table-column>
+    <el-table-column prop="release_time" label="发布时间"> </el-table-column>
+    <el-table-column label="状态">
+        <template slot-scope="scope">
+            <el-tag v-if="scope.row.status == 0" size="mini">正常</el-tag>
+            <el-tag v-else size="mini">禁用</el-tag>
+        </template>
+    </el-table-column>
+    <el-table-column label="操作" width="150">
+        <template slot-scope="scope">
+            <el-button @click="editHandle(scope.row)" type="text" size="mini">编辑</el-button>
+            <el-button @click="delHandle(scope.$index, scope.row)" type="text" size="mini">删除</el-button>
+        </template>
+    </el-table-column>
+</el-table>
+```
+> slot 元素作为承载分发内容的出口
+> 简单的说其实就是一个组件留的一个可扩张的输出功能
+
+
+## 编写通知页面列表
+1. 创建变量
+``` javascript
+  rows: [],
+  items: {},
+  dialogVisible: false,
+  dialogVisibleType: "",
+  total: 0,
+  listQuery: {
+    page: 1,
+    limit: 10,
+  },
+
+```
+2. 引入接口 [接口地址]<http://api.lzread.com:3111/api/notice/list?page=1&limit=10>
+``` javascript
+import { list } from "@/api/notice";
+```
+3. 创建函数
+``` javascript
+async getList() {
+  const { data, total } = await list(this.listQuery);
+  this.rows = data;
+  this.total = total;
+}
+```
+
+## 查看通知列表的数据结构
+```html
+<pre>{{rows}}</pre>
+```
+
+## 编写新建通知、编辑通知、删除通知业务
+
+1. 引入接口 新建 [接口地址]<http://api.lzread.com:3111/api/notice/add> 编辑 [接口地址]<http://api.lzread.com:3111/api/notice/edit>
+``` javascript
+import { list, add, edit, del } from "@/api/notice";
+```
+2. 新建和编辑的结构
+``` html
+  <el-dialog width="600px" :visible.sync="dialogVisible" :title="dialogVisibleType == 'add' ? '新建' : '编辑'">
+      <el-form :model="items" label-width="80px" label-position="right" size="mini">
+          <el-form-item label="标题" prop="title">
+              <el-input v-model="items.title" />
+          </el-form-item>
+          <el-form-item label="日期" prop="content">
+              <el-date-picker v-model="items.release_time" type="date" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
+              </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="内容">
+              <el-input v-model="items.content" :autosize="{ minRows: 5, maxRows: 10 }" type="textarea" />
+          </el-form-item>
+
+          <el-form-item label="状态">
+              <el-radio-group v-model="items.status">
+                  <el-radio :label="0">正常</el-radio>
+                  <el-radio :label="-1">禁用</el-radio>
+              </el-radio-group>
+          </el-form-item>
+      </el-form>
+
+      <div slot="footer">
+          <el-button size="mini" type="danger" @click="dialogVisible = false">取消</el-button>
+          <el-button size="mini" type="primary" @click="commitHandle()">提交</el-button>
+      </div>
+  </el-dialog>
+```
+3. 创建新建函数
+``` javascript
+addHandle() {
+  this.dialogVisible = true;
+  this.dialogVisibleType = "add";
+  this.items = {
+      status: 0,
+      image: "",
+  };
+},
+```
+4. 创建编辑函数
+``` javascript
+editHandle(row) {
+   this.dialogVisible = true;
+   this.dialogVisibleType = "edit";
+   this.items = row;
+}
+```
+5. 创建保存函数
+``` javascript
+async commitHandle() {
+   if (this.dialogVisibleType == "add") {
+      const { data } = await add(this.items);
+   } else {
+      const { data } = await edit(this.items);
+   }
+   this.dialogVisible = false;
+   this.getList();
+}
+```
+6. 删除函数
+``` javascript
+delHandle(index, row) {
+  this.$confirm("是否删除当前数据?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(async () => {
+    this.rows.splice(index, 1);
+    await del(row.id);
+    this.$message({
+        type: "success",
+        message: "删除成功!",
+    });
+  });
+}
+```
+

@@ -5,3 +5,111 @@ date:   2020-12-03 01:01:01 +0800
 categories: lzread update
 ---
 
+## 编写新建和编辑通知业务的封面图片上传
+### 上传控件的结构
+``` html
+<el-form-item label="封面">
+  <el-upload class="image-uploader" :action="uploadPath" :show-file-list="false" :on-success="handleImageSuccess" :before-upload="beforeImageUpload">
+      <img class="image" v-if="imagePath" :src="imagePath" />
+      <i v-else class="el-icon-plus image-uploader-icon"></i>
+  </el-upload>
+</el-form-item>
+```
+  - `action` 必选参数，上传的地址
+  - `on-success` 文件上传成功时的钩子	
+  - `before-upload` 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传。
+  - `show-file-list` 是否显示已上传文件列表	
+  - `<img>` 用于回显上传成功的图片
+
+### `data` 参数
+```javascript
+uploadPath: "http://api.lzread.com:3111/api/uploadFile",
+imagePath: "",
+```
+### `handleImageSuccess` 成功函数
+```javascript
+handleImageSuccess(res, file) {
+    if (res.code == "200") {
+        this.imagePath = URL.createObjectURL(file.raw);
+        this.items.image = res.url;
+    } else {
+        this.$message.error("上传失败，请重试");
+    }
+}
+```
+### `beforeImageUpload` 上传之前函数
+```javascript
+beforeImageUpload(file) {
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        this.$message.error("图片大小不能超过 2MB!");
+    }
+    return isLt2M;
+}
+```
+### 修改 `addHandle` 函数
+```javascript
+this.imagePath = "";
+```
+### 修改 `editHandle` 函数
+```javascript
+this.imagePath = "http://api.lzread.com:3111/upload/" + row.image;
+```
+### 新增图片样式
+``` css
+.image-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.image-uploader .el-upload:hover {
+    border-color: #409eff;
+}
+.image-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+}
+.image {
+    width: 178px;
+    height: 178px;
+}
+```
+
+## 编写通知列表分页
+### 创建分页组件 `/components/Pagination/index.vue`
+ - prop通信方式大家最常见的，也是最常用的父子组件通信类型。
+ - 可以直接在标签里面给子组件绑定属性和方法。
+ - 对于属性我们可以直接通过子组件声明的 prop 拿到。
+ - 对于父元素的方法，我们可以通过 this.$emit触发。
+### 引用分页组件
+ 1. `import Pagination from "@/components/Pagination";`
+ 2. `components: { Pagination }`
+ 3. `<pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />`
+
+## 编写通知列表的标题搜索
+### 搜索结构
+``` html
+<el-input placeholder="请输入内容" size="mini" v-model="listQuery.keyword">
+    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+</el-input>
+```
+### `data` 参数增加 `keyword` 关键字参数
+``` javascript
+listQuery: {
+    keyword: "",
+}
+```
+### 增加 `search` 函数
+``` javascript
+search() {
+    this.getList();
+}
+```
+
+

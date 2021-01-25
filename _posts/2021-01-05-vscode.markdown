@@ -5,3 +5,13 @@ date:   2021-01-05 01:01:01 +0800
 categories: lzread update
 ---
 
+## 实现目标
+vue-cli 项目安装 eslint 后，读取 .eslintrc.js 配置文件，保存自动格式化
+
+## 运行系统
+Linux Ubuntu
+
+## vscode 准备
+1. eslint
+
+...

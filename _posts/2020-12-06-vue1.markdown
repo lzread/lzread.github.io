@@ -5,3 +5,53 @@ date:   2020-12-06 01:01:01 +0800
 categories: lzread update
 ---
 
+## 全局安装 CLI
+1. 确定安装的版本，因为版本之间存在安装差异，目前我选择的是新版本进行安装；
+2. 各个版本之间安装时候的存在差异 `npm install -g @vue/cli`，老版本 `vue-cli`；
+3. 通过`npm install -g vue-cli`安装的最新的只到2.96。
+4. 卸载 `npm uninstall vue-cli -g` 卸载老版本,查看是否卸载干净 `vue -V` , 如果没有卸载干净老版本是无法安装新版本的；
+
+
+## 初始化通过 CLI 创建一个项目
+只有新版本的 CLI >= 3 才这么创建，老版本的不讲了。
+
+1. 命令行创建 `vue create vue-oa`
+2. 图像界面创建 `vue ui`
+3. 创建之前想使用 `vue -V` 查看版本和是否安装成功。
+4. 创建完成后运行
+5. eslint 代码风格插件 【默认安装】
+6. babel 语法编译器 【默认安装】
+
+## 安装 ElementUI
+> Element,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。
+1. `npm i element-ui -S`
+2. 在 main.js 里面 `import ElementUI from 'element-ui'`
+3. 在 main.js 里面 `import 'element-ui/lib/theme-chalk/index.css'`
+4. 在 main.js 里面 `Vue.use(ElementUI);`
+5. 使用 Element
+
+## 安装 router
+>Vue.js 官方的路由管理器 <https://router.vuejs.org/zh/installation.html>
+`npm install vue-router`
+
+## 安装 axios
+> Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
+1. `npm install axios`
+2. 在 main.js 里面 `import axios from 'axios'`
+3. `Vue.prototype.$http = axios`
+
+## 安装 sass
+> Sass 是世界上最成熟、稳定、强大的专业级 CSS 扩展语言。
+1. `npm install sass`
+2. `npm install sass-loader`
+
+## 查看 package.json
+> package.json 文件是许多基于 Node.js 生态系统的应用程序代码库中的关键元素。
+1. dependencies (生产环境) 
+2. devDependencies (开发环境) 
+3. eslintConfig （JavaScript 语法规则和代码风格）
+4. browserslist <http://browserslist.com/?q=bGFzdCAyIHZlcnNpb25z>
+   1. `>1% ` 代表着全球超过1%人使用的浏览器+
+   2. `last 2 versions` 表示所有浏览器兼容到最后两个版本
+
+
