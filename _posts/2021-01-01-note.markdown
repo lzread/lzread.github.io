@@ -10,6 +10,19 @@ categories: lzread update
 ```bash
 chmod 777 * -R
 ```
+## 查询端口占用
+```bash
+netstat -ntlp|grep 80
+```
+## 结束端口
+```bash
+pkill -9 [名称]
+kill -9 [ID]
+```
+## 停止 apache2 服务
+```bash
+sudo service apache2 stop
+```
 
 ## maxos 常用记录
 ### nginx

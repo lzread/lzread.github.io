@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "Nginx 反向代理配置记录"
+date:   2021-01-01 01:01:01 +0800
+categories: lzread update
+---
+
+```bash
+#PROXY-START/
+location /api
+{
+    proxy_pass http://888.net:8096/;
+    proxy_set_header Host 333.cn;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    
+    add_header 'Access-Control-Allow-Origin' *;
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+    #Set Nginx Cache
+    
+    add_header Cache-Control no-cache;
+    expires 12h;
+}
+#PROXY-END/
+```
