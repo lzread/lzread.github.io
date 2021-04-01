@@ -1,0 +1,120 @@
+.vw-cells_title {
+    padding: 30rpx;
+}
+
+.vw-cells {
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.vw-cell {
+    padding: 30rpx;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    min-height: 50px;
+    box-sizing: border-box;
+
+
+    &.vw-cell_disabled {
+        color: $uni-text-color-grey;
+        opacity: 0.75;
+    }
+
+    &:before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 1px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.1);
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scaleY(0.5);
+        transform: scaleY(0.5);
+        left: 30rpx;
+        z-index: 2;
+    }
+
+    &:first-child::before {
+        display: none;
+    }
+
+    .vw-cell_hd {
+        align-self: center;
+    }
+
+    .vw-cell_bd {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        align-self: center;
+    }
+
+    .vw-cell_ft {
+        position: relative;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        color: $uni-text-color-grey;
+        align-self: center;
+    }
+
+
+    &.vw-cell_example {
+        &:first-child::before {
+            display: none;
+        }
+
+        .vw-cell_hd {
+            img {
+                width: 40rpx;
+                height: 40rpx;
+                display: block;
+                margin-right: 30rpx;
+            }
+        }
+
+    }
+
+    &.vw-cell_status {
+        .vw-cell_hd {
+            em {
+                flex-grow: 0;
+                font-style: normal;
+                padding: 8rpx 12rpx;
+                font-size: 24rpx;
+                margin-right: 30rpx;
+            }
+        }
+    }
+
+    &.vw-cell_access {
+        text-decoration: none;
+        color: inherit;
+
+        .vw-cell_ft {
+            position: relative;
+        }
+    }
+}
+
+.vw-cell_value {
+    position: relative;
+    overflow: hidden;
+    color: $uni-text-color-grey;
+    text-align: right;
+    vertical-align: middle;
+    word-wrap: break-word;
+}

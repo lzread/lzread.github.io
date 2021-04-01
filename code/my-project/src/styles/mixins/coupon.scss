@@ -1,0 +1,64 @@
+.vw-coupon-list {
+    padding: 20rpx 30rpx;
+    background-color: $uni-bg-color-grey;
+
+    .vw-coupon-item {
+        border-radius: 16rpx;
+        background-color: #fff;
+        display: block;
+        height: 200rpx;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        margin: 30rpx 0;
+
+        .vw-cell {
+            height: 100%;
+            box-sizing: border-box;
+            background-color: transparent;
+
+            .vw-cell_hd {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-width: 200rpx;
+
+                .vw-coupon-item_money {
+                    font-size: 40rpx;
+                    color: #f00;
+                    margin-bottom: 10rpx;
+
+                    &:after {
+                        content: attr(data-unit);
+                        font-size: 24rpx;
+                    }
+                }
+
+                .vw-coupon-item_sale {
+                    color: #f00;
+                    font-size: 24rpx;
+                }
+            }
+
+            .vw-cell_bd {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-left: 40rpx;
+
+                .vw-coupon-item_name {
+                    font-size: 32rpx;
+                    margin-bottom: 10rpx;
+                }
+
+                .vw-coupon-item_time {
+                    color: $uni-text-color-grey;
+                }
+            }
+
+
+
+        }
+    }
+}

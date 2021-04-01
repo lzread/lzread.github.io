@@ -1,0 +1,60 @@
+.vw-address-list {
+    .vw-address-item {
+        display: flex;
+        flex-direction: column;
+
+
+
+        .vw-cell {
+            height: 200rpx;
+
+            .vw-cell_hd {
+                align-self: center;
+            }
+
+            .vw-cell_bd {
+                padding: 0 10rpx;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+
+
+                .vw-address-item_name {
+                    font-size: $uni-font-size-lg;
+                    line-height: 40rpx;
+                }
+
+                .vw-address-item_mobile {
+                    font-size: $uni-font-size-lg;
+                    margin-left: 10rpx;
+                    line-height: 40rpx;
+                }
+
+                .vw-address-item_default {
+                    margin-left: 10rpx;
+                    padding: 0 12rpx;
+                    font-size: $uni-font-size-sm;
+                    background: $uni-color-success;
+                    color: #fff;
+                    border-radius: 8rpx;
+                    line-height: 40rpx;
+                }
+
+                .vw-address-item_address {
+                    color: $uni-text-color-grey;
+                    width: 100%;
+                    flex-grow: 1;
+                    margin-top: 10rpx;
+                }
+            }
+
+            .vw-cell_ft {
+                .uni-icons {
+                    margin: 0 5rpx;
+                }
+            }
+        }
+
+        margin-bottom: 20rpx;
+    }
+}

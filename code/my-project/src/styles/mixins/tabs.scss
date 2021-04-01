@@ -1,0 +1,39 @@
+.vw-tabs {
+    .vw-tabs_header {
+        .vw-tabs_nav {
+            display: flex;
+            height: 80rpx;
+            background-color: #fff;
+
+            .vw-tabs_item {
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+
+                &.is-active {
+                    &:after {
+                        content: "";
+                        width: 80%;
+                        height: 4rpx;
+                        background-color: $uni-color-primary;
+                        position: absolute;
+                        left: 10%;
+                        bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .vw-tabs_content {
+
+
+        .vw-tab-panel {
+            animation-duration: .5s;
+            animation-fill-mode: both;
+            animation-name: fadeIn;
+        }
+    }
+}

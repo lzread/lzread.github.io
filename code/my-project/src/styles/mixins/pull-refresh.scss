@@ -1,0 +1,13 @@
+.vm-load-more {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20rpx;
+    box-sizing: border-box;
+
+    .vm-load-more_text {
+        color: $uni-text-color-grey;
+    }
+
+}

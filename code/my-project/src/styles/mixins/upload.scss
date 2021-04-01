@@ -1,0 +1,90 @@
+.vw-upload {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    &[data-role="images"] {
+
+        .vw-upload_add {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 1px solid $uni-border-color;
+        }
+
+        .vw-upload_item {
+            position: relative;
+            margin-right: 20rpx;
+            margin-bottom: 20rpx;
+        }
+
+        .vw-upload_item:nth-of-type(3n) {
+            margin-right: 0;
+        }
+
+        .vw-upload_item_img {
+            display: block;
+            border: 1px solid $uni-border-color;
+            background-color: #fff;
+        }
+
+        .vw-upload_item_img_del {
+            width: 36rpx;
+            height: 36rpx;
+            position: absolute;
+            right: -12rpx;
+            top: -12rpx;
+            background-color: #eb0909;
+            border-radius: 50%;
+            color: white;
+            font-size: 34rpx;
+            z-index: 999;
+        }
+
+        .vw-upload_item_img_del::before {
+            content: "";
+            width: 16rpx;
+            height: 1px;
+            position: absolute;
+            left: 10rpx;
+            top: 18rpx;
+            background-color: #fff;
+        }
+
+        .vw-upload_loading {
+            width: 28rpx;
+            height: 28rpx;
+            border-radius: 50%;
+            border: 2px solid;
+            border-color: #b2b2b2 #b2b2b2 #b2b2b2 #fff;
+            animation: loading-rotate 0.7s linear infinite;
+        }
+
+
+
+        .vw-upload_tips {
+            font-size: 26rpx;
+            color: #fff;
+        }
+
+        .vw-upload_mask_btn {
+            padding: 4rpx 16rpx;
+            border-radius: 40rpx;
+            text-align: center;
+            font-size: 24rpx;
+            color: #fff;
+            border: 1rpx solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 26rpx;
+        }
+
+        .vw-upload_btn_hover {
+            opacity: 0.8;
+        }
+    }
+}

@@ -1,0 +1,107 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "VJSP WEUI"
+			}
+		},
+		{
+			"path": "pages/form/index",
+			"style": {
+				"navigationBarTitleText": "表单"
+			}
+		},
+		{
+			"path": "pages/upload/index",
+			"style": {
+				"navigationBarTitleText": "上传控件"
+			}
+		},
+		{
+			"path": "pages/list/index",
+			"style": {
+				"navigationBarTitleText": "列表"
+			}
+		},
+		{
+			"path": "pages/icons/index",
+			"style": {
+				"navigationBarTitleText": "图标"
+			}
+		},
+		{
+			"path": "pages/button/index",
+			"style": {
+				"navigationBarTitleText": "按钮"
+			}
+		},
+		{
+			"path": "pages/pull-refresh/index",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "下拉刷新&加载更多"
+			}
+		},
+		{
+			"path": "pages/navbar/index",
+			"style": {
+				"navigationBarTitleText": "导航栏"
+			}
+		},
+		{
+			"path": "pages/dialog/index",
+			"style": {
+				"navigationBarTitleText": "弹出框"
+			}
+		},
+		{
+			"path": "pages/tabs/index",
+			"style": {
+				"navigationBarTitleText": "选项卡"
+			}
+		},
+		{
+			"path": "pages/empty/index",
+			"style": {
+				"navigationBarTitleText": "空状态"
+			}
+		},
+		{
+			"path": "pages/cascade/index",
+			"style": {
+				"navigationBarTitleText": "级联选择器"
+			}
+		},
+		{
+			"path": "pages/address/index",
+			"style": {
+				"navigationBarTitleText": "地址列表"
+			}
+		},
+		{
+			"path": "pages/address/edit",
+			"style": {
+				"navigationBarTitleText": "地址编辑"
+			}
+		},
+		{
+			"path": "pages/coupon/index",
+			"style": {
+				"navigationBarTitleText": "优惠券"
+			}
+		},
+		{
+			"path": "pages/skeleton/index",
+			"style": {
+				"navigationBarTitleText": "骨架屏"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "VJSP",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F2F2F2"
+	}
+}

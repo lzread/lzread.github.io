@@ -1,0 +1,37 @@
+.vw-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50rpx;
+
+    .vw-empty_icon {
+        width: 500rpx;
+        height: 500rpx;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &.default {
+            background-image: url(./images/empty-image-default.png);
+        }
+
+        &.error {
+            background-image: url(./images/empty-image-error.png);
+        }
+
+        &.search {
+            background-image: url(./images/empty-image-search.png);
+        }
+    }
+
+    .vw-empty_desc {
+        padding: 20rpx 0;
+
+        &+uni-button {
+            margin-top: 20rpx;
+        }
+    }
+
+
+}

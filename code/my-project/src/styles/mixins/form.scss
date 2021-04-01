@@ -1,0 +1,149 @@
+.vw-form {
+    display: block;
+
+    .vw-cells {
+        background-color: var(--vw-formBgColor);
+
+        &+.vw-cells {
+            margin-top: 20rpx;
+        }
+    }
+
+    .vw-cell {
+        &:first-child:before {
+            display: none;
+        }
+
+        &.vw-cell-upload,
+        &.vw-cell-textarea {
+            .vw-cell_hd {
+                align-self: flex-start;
+            }
+        }
+    }
+
+    .vw-cell_hd,
+    .vw-cell_bd {
+        display: flex;
+        align-items: center;
+        min-height: 64rpx;
+    }
+
+    .vw-label {
+        display: flex;
+        min-width: 160rpx;
+        min-height: 64rpx;
+        align-items: center;
+    }
+
+    .uni-input-placeholder,
+    .textarea-placeholder {
+        font-size: $--vw-fontSize;
+    }
+
+    .textarea-placeholder {
+        line-height: 64rpx;
+    }
+
+    uni-textarea {
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    uni-picker {
+        flex-grow: 1;
+        min-height: 64rpx;
+        line-height: 64rpx;
+    }
+
+    uni-input {
+        font-size: inherit;
+        flex-grow: 1;
+        min-height: 64rpx;
+        line-height: 64rpx;
+    }
+
+    .uni-textarea-textarea {
+        font-size: inherit;
+        line-height: 64rpx;
+    }
+
+
+
+    .uni-data-tree {
+        flex-grow: 1;
+        align-self: center;
+
+        .uni-data-tree-input {
+            font-size: inherit;
+        }
+
+        .input-value {
+            border-radius: 0;
+            padding: 0;
+            line-height: normal;
+            font-size: inherit;
+
+        }
+
+        .input-value-border {
+            border: 0;
+        }
+
+        .selected-list {
+            padding: 0;
+        }
+    }
+
+    uni-switch {
+        .uni-switch-input {
+            width: 88rpx;
+            height: 50rpx;
+
+            &:after,
+            &:before {
+                height: 44rpx;
+            }
+
+            &:before {
+                width: 84rpx;
+            }
+
+            &:after {
+                width: 44rpx;
+            }
+        }
+    }
+
+
+
+}
+
+.vw-form_bottom {
+    padding: 40rpx;
+}
+
+.vw-form_footer {
+    &+.vw-form {
+        padding-bottom: 110rpx;
+    }
+
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    height: 90rpx;
+
+    uni-button {
+        border: 0;
+        border-radius: 0;
+        flex-grow: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: $--vw-fontSize;
+    }
+}

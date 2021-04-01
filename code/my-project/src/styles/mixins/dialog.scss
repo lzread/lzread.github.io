@@ -1,0 +1,116 @@
+.vw_overlay {
+    background: $uni-bg-color-mask;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1001;
+    animation-duration: .5s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}
+
+.vw-dialog {
+    width: 480rpx;
+    min-height: 240rpx;
+    background-color: #fff;
+    position: fixed;
+    left: calc(50% - 240rpx);
+    top: calc(50% - 220rpx);
+    z-index: 1002;
+    border-radius: 10rpx;
+    display: flex;
+    flex-direction: column;
+
+    animation-duration: .5s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+
+    .vw-dialog_hd {
+        height: 80rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 0;
+    }
+
+    .vw-dialog_bd {
+        flex-grow: 1;
+        padding: 10rpx 30rpx 30rpx 30rpx;
+        text-align: center;
+        color: $uni-text-color-grey;
+    }
+
+    .vw-dialog_ft {
+        height: 80rpx;
+        border-top: 1px solid $uni-border-color;
+        display: flex;
+
+        .vw-dialog_ft_button {
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: $uni-color-primary;
+            border-left: 1px solid $uni-border-color;
+
+            &.last-child {
+                border-left: 0;
+            }
+        }
+    }
+}
+
+.vw-loading {
+    width: 200rpx;
+    height: 200rpx;
+    position: fixed;
+    left: calc(50% - 100rpx);
+    top: calc(50% - 100rpx);
+    z-index: 1002;
+    background: $uni-bg-color-mask;
+    border-radius: 10rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+
+    &::before {
+        content: "";
+        width: 80rpx;
+        height: 80rpx;
+        animation: loading-rotate 3s linear infinite;
+        margin-bottom: 20rpx;
+        background: center no-repeat url(data:image/png;base64,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);
+        background-size: 80rpx;
+    }
+}
+
+.vw-toast {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1002;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    .vw-toast_content {
+        animation-duration: .5s;
+        animation-fill-mode: both;
+        animation-name: fadeIn;
+        padding: 15rpx 25rpx;
+        background: $uni-bg-color-mask;
+        color: #fff;
+        margin-bottom: 180rpx;
+        border-radius: 10rpx;
+    }
+
+}
+
