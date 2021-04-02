@@ -7,25 +7,29 @@
 
         <radio-group @change="radioChange">
           <label v-for="(item, index) in items" :key="item.value" class="vw-address-item">
-            <view :class=" `vw-cell ${addr_disabled == item.id ? 'vw-cell_disabled': ''}`">
-              <view class="vw-cell_hd">
-                <radio :value="item.id" :checked="addr_default == item.id" :disabled="addr_disabled == item.id" />
-              </view>
-              <view class="vw-cell_bd">
-                <view class="vw-address-item_name">{{item.name}}</view>
-                <view class="vw-address-item_mobile">{{item.mobile}}</view>
-                <view class="vw-address-item_default" v-if="addr_default == item.id">默认</view>
-                <view class="vw-address-item_address">{{item.address}}</view>
-              </view>
-              <view class="vw-cell_ft">
-                <view class="vw-address-item_opt_icon" @click.stop="edit(item.id)">
-                  <vw-icon name="feedback" size="20"></vw-icon>
+            <vw-swipe-action :actions="actions" @click="handle">
+              <template v-slot:content>
+                <view :class="addr_disabled == item.id ? 'vw-cell  vw-cell_disabled': 'vw-cell'">
+                  <view class="vw-cell_hd">
+                    <radio :value="item.id" :checked="addr_default == item.id" :disabled="addr_disabled == item.id" />
+                  </view>
+                  <view class="vw-cell_bd">
+                    <view class="vw-address-item_name">{{item.name}}</view>
+                    <view class="vw-address-item_mobile">{{item.mobile}}</view>
+                    <view class="vw-address-item_default" v-if="addr_default == item.id">默认</view>
+                    <view class="vw-address-item_address">{{item.address}}</view>
+                  </view>
+                  <view class="vw-cell_ft">
+                    <view class="vw-address-item_opt_icon" @click.stop="edit(item.id)">
+                      <vw-icon name="feedback" size="20"></vw-icon>
+                    </view>
+                    <view class="vw-address-item_opt_icon" @click.stop="del(index)">
+                      <vw-icon name="delete" size="20"></vw-icon>
+                    </view>
+                  </view>
                 </view>
-                <view class="vw-address-item_opt_icon" @click.stop="del(index)">
-                  <vw-icon name="delete" size="20"></vw-icon>
-                </view>
-              </view>
-            </view>
+              </template>
+            </vw-swipe-action>
           </label>
         </radio-group>
 
@@ -39,6 +43,22 @@
 export default {
   data() {
     return {
+      actions: [
+        {
+          name: "编辑",
+          color: "#fff",
+          fontsize: 30, //单位rpx
+          width: 70, //单位px
+          background: "#faa851",
+        },
+        {
+          name: "删除",
+          color: "#fff",
+          fontsize: 30, //单位rpx
+          width: 70, //单位px
+          background: "#ff201f",
+        },
+      ],
       addr_disabled: "4", //禁用
       addr_default: "1", //默认
       items: [
@@ -78,6 +98,9 @@ export default {
   computed: {},
   onLoad() {},
   methods: {
+    handle(e) {
+      console.log(e);
+    },
     edit(id) {
       uni.navigateTo({
         url: "/pages/address/edit",

@@ -2,7 +2,7 @@
 
   <view v-if="visible">
     <view class="vw_overlay" @click="close"></view>
-    <view role="modal" :class="`vw-modal vw-modal-${position}`">
+    <view role="modal" :class="'vw-modal vw-modal-' + position">
       <slot></slot>
     </view>
   </view>

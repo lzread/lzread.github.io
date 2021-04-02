@@ -19,7 +19,7 @@
         <view class="vw-coupon-list">
           <radio-group @change="radioChange">
             <label v-for="(item, index) in items" :key="item.value" class="vw-coupon-item">
-              <view :class=" `vw-cell ${coupon_disabled == item.id ? 'vw-cell_disabled': ''}`">
+              <view :class="coupon_disabled == item.id ? 'vw-cell vw-cell_disabled': 'vw-cell'">
                 <view class="vw-cell_hd">
                   <view class="vw-coupon-item_money" data-unit="元">
                     {{item.money}}

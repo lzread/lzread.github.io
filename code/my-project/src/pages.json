@@ -96,6 +96,12 @@
 			"style": {
 				"navigationBarTitleText": "骨架屏"
 			}
+		},
+		{
+			"path": "pages/tags/index",
+			"style": {
+				"navigationBarTitleText": "标签"
+			}
 		}
 	],
 	"globalStyle": {

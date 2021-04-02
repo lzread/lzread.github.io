@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       data: [],
-      loadMoreText: '<span class="vm-load-more_text">正在加载</span>',
+      loadMoreText: "",
       showLoadMore: false,
       listQuery: {
         page: 1,
@@ -34,17 +34,19 @@ export default {
   onReachBottom() {
     if (this.data.length >= this.total) {
       this.showLoadMore = true;
-      this.loadMoreText = '<span class="vm-load-more_text">数据加载完成</span>';
+      this.loadMoreText = '<text class="vm-load-more_end">数据加载完成</text>';
       return;
     }
     this.showLoadMore = true;
     this.listQuery.page += 1;
+    this.loadMoreText = '<text class="vm-load-more_text">正在加载</text>';
     setTimeout(() => {
       this.initData("up");
     }, 1000);
   },
   onPullDownRefresh() {
     this.listQuery.page = 1;
+
     setTimeout(() => {
       this.initData("down");
     }, 1000);

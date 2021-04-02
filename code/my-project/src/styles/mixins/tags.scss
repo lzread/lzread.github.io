@@ -1,0 +1,260 @@
+.vw-primary {
+    background-color: $uni-color-primary !important;
+    color: $uni-color-white;
+}
+
+.vw-light-primary {
+    background-color: darken($uni-color-primary, 10%) !important;
+    color: $uni-color-white;
+}
+
+.vw-dark-primary {
+    background-color: darken($uni-color-primary, 20%) !important;
+    color: $uni-color-white;
+}
+
+.vw-dLight-primary {
+    background-color: darken($uni-color-primary, 30%) !important;
+    color: $uni-color-white;
+}
+
+.vw-danger {
+    background-color: $uni-color-danger !important;
+    color: $uni-color-white;
+}
+
+.vw-red {
+    background-color: $uni-color-red !important;
+    color: $uni-color-white;
+}
+
+.vw-warning {
+    background-color: $uni-color-warning !important;
+    color: $uni-color-white;
+}
+
+.vw-green {
+    background-color: $uni-color-green !important;
+    color: $uni-color-white;
+}
+
+.vw-high-green {
+    background-color: darken($uni-color-green, 50%) !important;
+    color: darken($uni-color-green, 50%) !important;
+}
+
+.vw-black {
+    background-color: $uni-color-black !important;
+    color: $uni-color-white;
+}
+
+.vw-white {
+    background-color: $uni-color-white !important;
+    color: $uni-color-black !important;
+}
+
+.vw-translucent {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.vw-light-black {
+    background-color: $uni-color-black !important;
+}
+
+.vw-gray {
+    background-color: $uni-color-gray !important;
+}
+
+.vw-phcolor-gray {
+    background-color: #ccc !important;
+}
+
+.vw-divider-gray {
+    background-color: #eee !important;
+}
+
+.vw-btn-gray {
+    background-color: $uni-color-gray !important;
+    color: $uni-color-gray !important;
+}
+
+.vw-hover-gray {
+    background-color: #f7f7f7 !important;
+}
+
+.vw-bg-gray {
+    background-color: #fafafa !important;
+}
+
+.vw-light-blue {
+    background-color: $uni-color-light-blue;
+    color: $uni-color-blue !important;
+}
+
+.vw-light-brownish {
+    background-color: $uni-color-light-brown;
+    color: $uni-color-brown !important;
+}
+
+.vw-light-orange {
+    background-color: $uni-color-light-orange;
+    color: $uni-color-orange !important;
+}
+
+.vw-light-green {
+    background-color: $uni-color-light-green;
+    color: darken($uni-color-green, 10%) !important;
+}
+
+.vw-primary-outline::after {
+    border: 1px solid $uni-color-primary !important;
+}
+
+.vw-primary-outline {
+    color: $uni-color-primary !important;
+    background-color: none;
+}
+
+.vw-danger-outline {
+    color: $uni-color-danger !important;
+    background-color: none;
+}
+
+.vw-danger-outline::after {
+    border: 1px solid $uni-color-danger !important;
+}
+
+.vw-red-outline {
+    color: $uni-color-red !important;
+    background-color: none;
+}
+
+.vw-red-outline::after {
+    border: 1px solid $uni-color-red !important;
+}
+
+.vw-warning-outline {
+    color: $uni-color-warning !important;
+    background-color: none;
+}
+
+.vw-warning-outline::after {
+    border: 1px solid $uni-color-warning !important;
+}
+
+.vw-green-outline {
+    color: $uni-color-green !important;
+    background-color: none;
+}
+
+.vw-green-outline::after {
+    border: 1px solid $uni-color-green !important;
+}
+
+.vw-high-green-outline {
+    color: $uni-color-light-green !important;
+    background-color: none;
+}
+
+.vw-high-green-outline::after {
+    border: 1px solid $uni-color-light-green !important;
+}
+
+.vw-gray-outline {
+    color: $uni-color-gray !important;
+    background-color: none;
+}
+
+.vw-gray-outline::after {
+    border: 1px solid #ccc !important;
+}
+
+.vw-black-outline {
+    color: #333 !important;
+    background-color: none;
+}
+
+.vw-black-outline::after {
+    border: 1px solid #333 !important;
+}
+
+.vw-white-outline {
+    color: $uni-color-white !important;
+    background-color: none;
+}
+
+.vw-white-outline::after {
+    border: 1px solid $uni-color-white !important;
+}
+
+/* color end*/
+
+/* tag start*/
+
+.vw-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6rpx;
+    flex-shrink: 0;
+}
+
+.vw-tag-outline {
+    position: relative;
+    background-color: none;
+    color: $uni-color-primary;
+}
+
+.vw-tag-outline::after {
+    content: " ";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5) translateZ(0);
+    transform-origin: 0 0;
+    box-sizing: border-box;
+    left: 0;
+    top: 0;
+    border-radius: 12rpx;
+}
+
+.vw-tag-fillet {
+    border-radius: 50rpx;
+}
+
+.vw-white.vw-tag-fillet::after {
+    border-radius: 80rpx;
+}
+
+.vw-tag-outline-fillet::after {
+    border-radius: 80rpx;
+}
+
+.vw-tag-fillet-left {
+    border-radius: 50rpx 0 0 50rpx;
+}
+
+.vw-tag-fillet-right {
+    border-radius: 0 50rpx 50rpx 0;
+}
+
+.vw-tag-fillet-left.vw-tag-outline::after {
+    border-radius: 100rpx 0 0 100rpx;
+}
+
+.vw-tag-fillet-right.vw-tag-outline::after {
+    border-radius: 0 100rpx 100rpx 0;
+}
+
+/* tag end*/
+.vw-origin-left {
+    transform-origin: 0 center;
+}
+
+.vw-origin-right {
+    transform-origin: 100% center;
+}
+
+.vw-tag-opcity {
+    opacity: 0.5;
+}

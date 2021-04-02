@@ -17,6 +17,8 @@
                 display: flex;
                 flex-wrap: wrap;
                 align-items: center;
+                flex-grow: 1;
+                width: 0;
 
 
                 .vw-address-item_name {
@@ -45,6 +47,7 @@
                     width: 100%;
                     flex-grow: 1;
                     margin-top: 10rpx;
+                    white-space: normal;
                 }
             }
 

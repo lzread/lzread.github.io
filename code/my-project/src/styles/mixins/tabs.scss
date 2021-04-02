@@ -1,39 +1,63 @@
 .vw-tabs {
-    .vw-tabs_header {
-        .vw-tabs_nav {
-            display: flex;
-            height: 80rpx;
-            background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-            .vw-tabs_item {
-                flex-grow: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
+.vw-tabs-relative {
+    position: relative;
+}
 
-                &.is-active {
-                    &:after {
-                        content: "";
-                        width: 80%;
-                        height: 4rpx;
-                        background-color: $uni-color-primary;
-                        position: absolute;
-                        left: 10%;
-                        bottom: 0;
-                    }
-                }
-            }
-        }
-    }
+.vw-tabs-fixed {
+    position: fixed;
+    left: 0;
+}
 
-    .vw-tabs_content {
+.vw-tabs-fixed::before,
+.vw-tabs-relative::before {
+    content: '';
+    position: absolute;
+    border-bottom: 1rpx solid #eaeef1;
+    -webkit-transform: scaleY(0.5) translateZ(0);
+    transform: scaleY(0.5) translateZ(0);
+    transform-origin: 0 100%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
 
+.vw-unlined::before {
+    border-bottom: 0 !important;
+}
 
-        .vw-tab-panel {
-            animation-duration: .5s;
-            animation-fill-mode: both;
-            animation-name: fadeIn;
-        }
-    }
+.vw-tabs-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vw-tabs-disabled {
+    opacity: 0.6;
+}
+
+.vw-tabs-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.vw-tabs-active {
+    transition: all 0.15s ease-in-out;
+}
+
+.vw-tabs-slider {
+    position: absolute;
+    left: 0;
+    transition: all 0.15s ease-in-out;
+    z-index: 0;
+    transform: translateZ(0);
 }

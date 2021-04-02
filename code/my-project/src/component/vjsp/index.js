@@ -1,6 +1,5 @@
 import VwButton from "./button";
 import VwTabs from "./tabs";
-import VwTabPanel from "./tabs/tab/tab-panel";
 import VwEmpty from "./empty";
 import VwModal from './modal';
 import VwIcon from './icons';
@@ -8,14 +7,17 @@ import VwCascade from './cascade';
 import VwCityPicker from './cityPicker';
 import VwUpload from './upload';
 import VwSkeleton from './skeleton';
+import VwTag from './tags';
+import VwSwipeAction from './swipeAction';
 
 import Dialog from './dialog'
-const components = [VwButton, VwTabs, VwTabPanel, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton];
+const components = [VwButton, VwTabs, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton, VwTag, VwSwipeAction];
 
 const install = function (Vue, opts = {}) {
 
     components.forEach(component => {
         Vue.component(component.name, component);
+        console.log(component.name)
     });
 
     Vue.prototype.$alert = Dialog.Alert;
@@ -33,12 +35,13 @@ export default {
     install,
     VwButton,
     VwTabs,
-    VwTabPanel,
     VwEmpty,
     VwModal,
     VwIcon,
     VwCascade,
     VwCityPicker,
     VwUpload,
-    VwSkeleton
+    VwSkeleton,
+    VwTag,
+    VwSwipeAction
 }

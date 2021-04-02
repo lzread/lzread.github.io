@@ -8,7 +8,7 @@
             <p>表单</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('button/index')">
@@ -16,7 +16,7 @@
             <p>按钮</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('upload/index')">
@@ -24,7 +24,7 @@
             <p>上传控件</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
       </view>
@@ -35,7 +35,15 @@
             <p>列表</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
+          </view>
+        </view>
+        <view class="vw-cell" @click="goto('tags/index')">
+          <view class="vw-cell_bd">
+            <p>标签</p>
+          </view>
+          <view class="vw-cell_ft">
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('icons/index')">
@@ -43,7 +51,7 @@
             <p>图标</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('skeleton/index')">
@@ -51,7 +59,7 @@
             <p>骨架屏</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
       </view>
@@ -62,7 +70,7 @@
             <p>下拉刷新&加载更多</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('dialog/index')">
@@ -70,7 +78,7 @@
             <p>弹出框</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('empty/index')">
@@ -78,7 +86,7 @@
             <p>空状态</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
       </view>
@@ -89,7 +97,7 @@
             <p>选项卡</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
       </view>
@@ -100,7 +108,7 @@
             <p>级联选择器</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('address/index')">
@@ -108,7 +116,7 @@
             <p>地址列表</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('address/edit')">
@@ -116,7 +124,7 @@
             <p>地址编辑</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
         <view class="vw-cell" @click="goto('coupon/index')">
@@ -124,7 +132,7 @@
             <p>优惠券</p>
           </view>
           <view class="vw-cell_ft">
-
+            <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
       </view>

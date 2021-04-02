@@ -4,21 +4,21 @@
 
       <view class="vw-cells">
         <view class="vw-cell vw-cell_status">
-          <view class="vw-cell_hd"><em data-status="1">处理中</em></view>
+          <view class="vw-cell_hd"><vw-tag type="danger" padding="10rpx 15rpx" margin="0 20rpx 0 0" size="24">处理中</vw-tag></view>
           <view class="vw-cell_bd">
             <p>苏F 22U33</p>
           </view>
           <view class="vw-cell_ft">2021-01-15</view>
         </view>
         <view class="vw-cell vw-cell_status">
-          <view class="vw-cell_hd"><em data-status="2">未处理</em></view>
+          <view class="vw-cell_hd"><vw-tag type="primary" padding="10rpx 15rpx" margin="0 20rpx 0 0" size="24">处理中</vw-tag></view>
           <view class="vw-cell_bd">
             <p>苏F 22U33</p>
           </view>
           <view class="vw-cell_ft">2021-01-15</view>
         </view>
         <view class="vw-cell vw-cell_status">
-          <view class="vw-cell_hd"><em data-status="3">已办结</em></view>
+          <view class="vw-cell_hd"><vw-tag type="green" padding="10rpx 15rpx" margin="0 20rpx 0 0" size="24">处理中</vw-tag></view>
           <view class="vw-cell_bd">
             <p>苏F 22U33</p>
           </view>
