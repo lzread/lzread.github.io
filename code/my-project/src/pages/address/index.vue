@@ -20,12 +20,7 @@
                     <view class="vw-address-item_address">{{item.address}}</view>
                   </view>
                   <view class="vw-cell_ft">
-                    <view class="vw-address-item_opt_icon" @click.stop="edit(item.id)">
-                      <vw-icon name="feedback" size="20"></vw-icon>
-                    </view>
-                    <view class="vw-address-item_opt_icon" @click.stop="del(index)">
-                      <vw-icon name="delete" size="20"></vw-icon>
-                    </view>
+
                   </view>
                 </view>
               </template>

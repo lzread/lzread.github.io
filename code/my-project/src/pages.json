@@ -62,6 +62,12 @@
 			}
 		},
 		{
+			"path": "pages/collapse/index",
+			"style": {
+				"navigationBarTitleText": "折叠面板"
+			}
+		},
+		{
 			"path": "pages/empty/index",
 			"style": {
 				"navigationBarTitleText": "空状态"

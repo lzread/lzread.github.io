@@ -9,9 +9,10 @@ import VwUpload from './upload';
 import VwSkeleton from './skeleton';
 import VwTag from './tags';
 import VwSwipeAction from './swipeAction';
+import VwCollapse from './collapse';
 
 import Dialog from './dialog'
-const components = [VwButton, VwTabs, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton, VwTag, VwSwipeAction];
+const components = [VwButton, VwTabs, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton, VwTag, VwSwipeAction, VwCollapse];
 
 const install = function (Vue, opts = {}) {
 
@@ -43,5 +44,6 @@ export default {
     VwUpload,
     VwSkeleton,
     VwTag,
-    VwSwipeAction
+    VwSwipeAction,
+    VwCollapse
 }

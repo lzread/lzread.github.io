@@ -11,11 +11,11 @@
         </view>
       </view>
       <!--actions长度设置为0，可直接传按钮进来-->
-      <view class="vw-swipe-action_button_right_group" @touchend.stop="loop" @tap="handlerParentButton" v-if="actions.length === 0" :style="{ width: operateWidth + 'px', right: '-' + operateWidth + 'px' }">
+      <view class="vw-swipe-action_button_right_group" @touchend.stop="loop" @tap.stop="handlerParentButton" v-if="actions.length === 0" :style="{ width: operateWidth + 'px', right: '-' + operateWidth + 'px' }">
         <slot name="button"></slot>
       </view>
     </view>
-    <view v-if="isShowBtn && showMask" class="vw-overlay" @tap.stop="closeButtonGroup" @touchstart.stop.prevent="closeButtonGroup" />
+    <view v-if="isShowBtn && showMask" class="vw-swipe-action_mask" @tap.stop="closeButtonGroup" @touchstart.stop.prevent="closeButtonGroup" />
   </view>
 </template>
 
@@ -226,6 +226,7 @@ export default {
       if (this.closable) {
         this.closeButtonGroup();
       }
+
       const dataset = event.currentTarget.dataset;
       this.$emit("click", {
         index: Number(dataset.index),
@@ -269,60 +270,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.vw-swipe-action {
-  position: relative;
-  overflow: hidden;
-}
-
-.vw-swipe-action_item_show {
-  position: relative;
-  z-index: 998;
-}
-
-.vw-swipe-action_item {
-  width: 100%;
-  /* padding: 15px 20px; */
-  box-sizing: border-box;
-  transition: transform 0.2s ease;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.vw-swipe-action_content {
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.vw-swipe-action_button_right_group {
-  position: absolute;
-  right: -100%;
-  top: 0;
-  height: 100%;
-  z-index: 1;
-  width: 100%;
-}
-
-.vw-swipe-action_button_right_item {
-  height: 100%;
-  float: left;
-  white-space: nowrap;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.swipe-action_mask {
-  display: block;
-  opacity: 0;
-  position: fixed;
-  z-index: 997;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>

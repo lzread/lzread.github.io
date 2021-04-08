@@ -81,6 +81,14 @@
             <vw-icon name="arrowright" size="20"></vw-icon>
           </view>
         </view>
+        <view class="vw-cell" @click="goto('collapse/index')">
+          <view class="vw-cell_bd">
+            <p>折叠面板</p>
+          </view>
+          <view class="vw-cell_ft">
+            <vw-icon name="arrowright" size="20"></vw-icon>
+          </view>
+        </view>
         <view class="vw-cell" @click="goto('empty/index')">
           <view class="vw-cell_bd">
             <p>空状态</p>
