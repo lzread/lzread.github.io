@@ -1,8 +1,10 @@
 <template>
   <view class="vw-collapse" :style="{backgroundColor:bgColor}">
     <view class="vw-collapse-header" :style="{backgroundColor:hdBgColor}" @tap.stop="handleClick">
-      <view class="vw-collapse-header_inner" :class="{'vw-opacity':disabled}">
-        <slot name="title"></slot>
+      <view class="vw-collapse-header_inner" :class="{'vw-collapse_opacity':disabled}">
+        <view class="vw-collapse-header_inner_title">
+          <slot name="title"></slot>
+        </view>
         <vw-icon name="arrowdown" size="20" class="vw-collapse-icon-arrow" :class="{'vw-collapse-icon-active':isOpen}" :style="{color:arrowColor}" v-if="arrow"></vw-icon>
       </view>
     </view>
@@ -91,41 +93,39 @@ export default {
 };
 </script>
 
-<style scoped>
-.vw-collapse-icon-arrow {
-  font-size: 32rpx;
-  transform: rotate(0);
-  transform-origin: center center;
-  transition: all 0.3s;
-  position: absolute;
-  top: 50%;
-  margin-top: -8px;
-  right: 30rpx;
-}
-
-.vw-arrow-padding {
-  padding-right: 62rpx;
-  box-sizing: border-box;
-}
-
-.vw-collapse-icon-active {
-  transform: rotate(180deg);
-  transform-origin: center center;
-}
-
+<style lang="scss" scoped>
 .vw-collapse-header {
   position: relative;
   z-index: 2;
+  .vw-collapse-header_inner {
+    display: flex;
+    height: 90rpx;
+    align-items: center;
+    padding: 0 30rpx;
+    .vw-collapse-header_inner_title {
+      flex-grow: 1;
+    }
+    .vw-collapse-icon-arrow {
+      font-size: 32rpx;
+      transform: rotate(0);
+      transform-origin: center center;
+      transition: all 0.3s;
+    }
+    .vw-collapse-icon-active {
+      transform: rotate(180deg);
+      transform-origin: center center;
+    }
+  }
 }
 .vw-collapse-body {
   transition: all 0.25s;
   overflow: hidden;
-}
-.vw-collapse-body_inner {
-  transition: all 0.25s;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
+  .vw-collapse-body_inner {
+    transition: all 0.25s;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .vw-collapse-transform {
@@ -142,7 +142,7 @@ export default {
   transform: translateY(0);
 }
 
-.vw-opacity {
+.vw-collapse_opacity {
   opacity: 0.6;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <view class="container">
-    <view class="vw-title">基本使用</view>
+    <view class="vw-cells_title">基本使用</view>
     <view>
       <block v-for="(item,index) in dataList" :key="index">
         <vw-collapse :index="index" :current="item.current" :disabled="item.disabled" @click="change">
           <template v-slot:title>
-            <vw-list-cell :hover="!item.disabled">{{item.name}}</vw-list-cell>
+            {{item.name}}
           </template>
           <template v-slot:content>
             <view class="vw-content">{{item.intro}}</view>
@@ -14,12 +14,12 @@
       </block>
     </view>
 
-    <view class="vw-title">禁用，无箭头</view>
+    <view class="vw-cells_title">禁用，无箭头</view>
     <view>
       <block v-for="(item,index) in dataList2" :key="index">
         <vw-collapse :animation="false" :index="index" :current="item.current" :disabled="item.disabled" :arrow="false" @click="change2">
           <template v-slot:title>
-            <vw-list-cell :hover="!item.disabled">{{item.name}}</vw-list-cell>
+            <view :hover="!item.disabled">{{item.name}}</view>
           </template>
           <template v-slot:content>
             <view class="vw-content">{{item.intro}}</view>
@@ -28,12 +28,12 @@
       </block>
     </view>
 
-    <view class="vw-title">手风琴效果</view>
+    <view class="vw-cells_title">手风琴效果</view>
     <view>
       <block v-for="(item,index) in dataList" :key="index">
         <vw-collapse :index="index" :current="current" :disabled="item.disabled" @click="change3">
           <template v-slot:title>
-            <vw-list-cell :hover="!item.disabled">{{item.name}}</vw-list-cell>
+            <view :hover="!item.disabled">{{item.name}}</view>
           </template>
           <template v-slot:content>
             <view class="vw-content">{{item.intro}}</view>
@@ -41,12 +41,12 @@
         </vw-collapse>
       </block>
     </view>
-    <view class="vw-title">手风琴效果，固定内容高度</view>
+    <view class="vw-cells_title">手风琴效果，固定内容高度</view>
     <view>
       <block v-for="(item,index) in dataList3" :key="index">
         <vw-collapse :index="index" :current="current2" height="120rpx" bdBgColor="#fff" @click="change4">
           <template v-slot:title>
-            <vw-list-cell>{{item.name}}</vw-list-cell>
+            <view>{{item.name}}</view>
           </template>
           <template v-slot:content>
             <view class="vw-content">{{item.intro}}</view>
@@ -150,17 +150,6 @@ export default {
 </script>
 
 <style>
-.container {
-  padding: 20rpx 0 120rpx 0;
-  box-sizing: border-box;
-}
-
-.vw-title {
-  padding: 40rpx 30rpx 20rpx;
-  box-sizing: border-box;
-  font-size: 32rpx;
-}
-
 .vw-content {
   padding: 20rpx 30rpx;
   background-color: #fff;

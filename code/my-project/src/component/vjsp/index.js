@@ -10,15 +10,16 @@ import VwSkeleton from './skeleton';
 import VwTag from './tags';
 import VwSwipeAction from './swipeAction';
 import VwCollapse from './collapse';
+import VwRate from './rate';
+
 
 import Dialog from './dialog'
-const components = [VwButton, VwTabs, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton, VwTag, VwSwipeAction, VwCollapse];
+const components = [VwButton, VwTabs, VwEmpty, VwModal, VwIcon, VwCascade, VwCityPicker, VwUpload, VwSkeleton, VwTag, VwSwipeAction, VwCollapse, VwRate];
 
 const install = function (Vue, opts = {}) {
 
     components.forEach(component => {
         Vue.component(component.name, component);
-        console.log(component.name)
     });
 
     Vue.prototype.$alert = Dialog.Alert;
@@ -45,5 +46,6 @@ export default {
     VwSkeleton,
     VwTag,
     VwSwipeAction,
-    VwCollapse
+    VwCollapse,
+    VwRate
 }
